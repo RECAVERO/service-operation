@@ -7,6 +7,7 @@ import com.nttdata.infraestructure.entity.Account;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.ArrayList;
@@ -44,8 +45,17 @@ public class OperationController {
 
   @POST
   @Path("/transfer")
+  @Fallback(fallbackMethod = "fallbackRegisterTransfer")
   public Response registerTransfer(TransferDto transferDto) {
     ResponseTransferDto res = accountApi.registrarTransfer(transferDto);
+    return Response.ok(res).status(200).build();
+  }
+
+  public Response fallbackRegisterTransfer(TransferDto transferDto) {
+    ResponseTransferDto res = new ResponseTransferDto();
+    res.setStatus("204");
+    res.setMessage("Servicio no disponile intente en una horas nuevamente, porfavor ...");
+
     return Response.ok(res).status(200).build();
   }
 }
