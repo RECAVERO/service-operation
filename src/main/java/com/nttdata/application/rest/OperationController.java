@@ -2,9 +2,7 @@ package com.nttdata.application.rest;
 
 import com.nttdata.btask.interfaces.AccountApi;
 import com.nttdata.btask.interfaces.OperationService;
-import com.nttdata.domain.models.AccountDto;
-import com.nttdata.domain.models.OperationDto;
-import com.nttdata.domain.models.ResponseDto;
+import com.nttdata.domain.models.*;
 import com.nttdata.infraestructure.entity.Account;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -32,15 +30,22 @@ public class OperationController {
   @POST
   @Path("/deposit")
   public Response registerDeposit(AccountDto accountDto) {
+    ResponseDto res = accountApi.updateAccountAmountDeposit(accountDto);
 
-    return Response.ok(accountApi.updateAccountAmountDeposit(accountDto)).status(200).build();
+    return Response.ok(res).status(200).build();
   }
 
   @POST
   @Path("/withdrawal")
   public Response registerWithdrawal(AccountDto accountDto) {
-
-    return Response.ok(accountApi.updateAccountAmountWithdrawal(accountDto)).status(200).build();
+    ResponseDto res = accountApi.updateAccountAmountWithdrawal(accountDto);
+    return Response.ok(res).status(200).build();
   }
 
+  @POST
+  @Path("/transfer")
+  public Response registerTransfer(TransferDto transferDto) {
+    ResponseTransferDto res = accountApi.registrarTransfer(transferDto);
+    return Response.ok(res).status(200).build();
+  }
 }
