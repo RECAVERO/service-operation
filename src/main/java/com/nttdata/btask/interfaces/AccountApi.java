@@ -1,13 +1,14 @@
 package com.nttdata.btask.interfaces;
 
-import com.nttdata.domain.models.AccountDto;
-import com.nttdata.domain.models.ResponseDto;
-import com.nttdata.domain.models.ResponseTransferDto;
-import com.nttdata.domain.models.TransferDto;
+import com.nttdata.domain.models.*;
 import com.nttdata.infraestructure.entity.Account;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+import java.util.List;
 
 @RegisterRestClient
 @Path("/account")
@@ -23,4 +24,9 @@ public interface AccountApi {
   @POST
   @Path("/transfer")
   ResponseTransferDto registrarTransfer(TransferDto transferDto);
+
+  @POST
+  @Path("/search/balance")
+  List<Account> searchBalanceCard(CardDto cardDto);
+
 }
